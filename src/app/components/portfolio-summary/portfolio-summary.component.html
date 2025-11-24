@@ -1,0 +1,73 @@
+<div class="card shadow-sm mb-4">
+  <div class="card-header bg-success text-white">
+    <h5 class="mb-0"><i class="bi bi-wallet2"></i> My Portfolio</h5>
+  </div>
+  <div class="card-body">
+    <div class="row text-center mb-3">
+      <div class="col-md-4">
+        <h6 class="text-muted">Total Value</h6>
+        <h3 class="text-primary">${{ totalValue | number : '1.2-2' }}</h3>
+      </div>
+      <div class="col-md-4">
+        <h6 class="text-muted">Profit/Loss</h6>
+        <h3 [class]="profitLoss >= 0 ? 'text-success' : 'text-danger'">
+          ${{ profitLoss | number : '1.2-2' }}
+        </h3>
+      </div>
+      <div class="col-md-4">
+        <h6 class="text-muted">Return %</h6>
+        <h3 [class]="profitLossPercentage >= 0 ? 'text-success' : 'text-danger'">
+          {{ profitLossPercentage | number : '1.2-2' }}%
+        </h3>
+      </div>
+    </div>
+
+    <div *ngIf="portfolio.length === 0" class="text-center text-muted py-4">
+      <i class="bi bi-inbox" style="font-size: 3rem"></i>
+      <p class="mt-2">No assets in portfolio. Add some cryptocurrencies below!</p>
+    </div>
+
+    <div *ngIf="portfolio.length > 0" class="table-responsive">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>Asset</th>
+            <th>Quantity</th>
+            <th>Purchase Price</th>
+            <th>Current Price</th>
+            <th>Value</th>
+            <th>P/L</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of portfolio">
+            <td>
+              <img [src]="item.crypto.image" width="24" class="me-2" />
+              {{ item.crypto.name }}
+              <small class="text-muted">({{ item.crypto.symbol | uppercase }})</small>
+            </td>
+            <td>{{ item.quantity }}</td>
+            <td>${{ item.purchasePrice | number : '1.2-2' }}</td>
+            <td>${{ item.crypto.current_price | number : '1.2-2' }}</td>
+            <td>${{ item.crypto.current_price * item.quantity | number : '1.2-2' }}</td>
+            <td
+              [class]="
+                item.crypto.current_price - item.purchasePrice >= 0 ? 'text-success' : 'text-danger'
+              "
+            >
+              ${{
+                (item.crypto.current_price - item.purchasePrice) * item.quantity | number : '1.2-2'
+              }}
+            </td>
+            <td>
+              <button class="btn btn-sm btn-danger" (click)="removeItem(item.crypto.id)">
+                <i class="bi bi-trash"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

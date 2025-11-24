@@ -1,0 +1,8 @@
+.crypto-card {
+  transition: transform 0.2s;
+  cursor: pointer;
+}
+
+.crypto-card:hover {
+  transform: translateY(-5px);
+}
