@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { CryptoService } from '../../services/crypto.service';
 import { PortfolioItem } from '../../models/crypto.model';
 
@@ -6,6 +7,8 @@ import { PortfolioItem } from '../../models/crypto.model';
   selector: 'app-portfolio-summary',
   templateUrl: './portfolio-summary.component.html',
   styleUrls: ['./portfolio-summary.component.css'],
+  standalone: true,
+  imports: [CommonModule],
 })
 export class PortfolioSummaryComponent implements OnInit {
   portfolio: PortfolioItem[] = [];

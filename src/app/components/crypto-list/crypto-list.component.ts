@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { CryptoCardComponent } from '../crypto-card/crypto-card.component';
 import { CryptoService } from '../../services/crypto.service';
 import { Crypto } from '../../models/crypto.model';
 
@@ -6,6 +9,8 @@ import { Crypto } from '../../models/crypto.model';
   selector: 'app-crypto-list',
   templateUrl: './crypto-list.component.html',
   styleUrls: ['./crypto-list.component.css'],
+  standalone: true,
+  imports: [CommonModule, FormsModule, CryptoCardComponent],
 })
 export class CryptoListComponent implements OnInit {
   cryptos: Crypto[] = [];

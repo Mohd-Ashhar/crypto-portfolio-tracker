@@ -1,4 +1,5 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { Crypto, PortfolioItem } from '../models/crypto.model';
@@ -11,8 +12,10 @@ export class CryptoService {
   private portfolioSubject = new BehaviorSubject<PortfolioItem[]>([]);
   public portfolio$ = this.portfolioSubject.asObservable();
 
-  constructor(private http: HttpClient) {
-    this.loadPortfolioFromStorage();
+  constructor(private http: HttpClient, @Inject(PLATFORM_ID) private platformId: Object) {
+    if (isPlatformBrowser(this.platformId)) {
+      this.loadPortfolioFromStorage();
+    }
   }
 
   // Get top cryptocurrencies
@@ -58,7 +61,9 @@ export class CryptoService {
 
   // LocalStorage persistence
   private savePortfolioToStorage() {
-    localStorage.setItem('crypto-portfolio', JSON.stringify(this.portfolioSubject.value));
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.setItem('crypto-portfolio', JSON.stringify(this.portfolioSubject.value));
+    }
   }
 
   private loadPortfolioFromStorage() {
